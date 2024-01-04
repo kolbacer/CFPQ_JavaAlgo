@@ -5,7 +5,6 @@ import ru.spbu.cfpq.grammar.impl.ContextFreeGrammar;
 import ru.spbu.cfpq.grammar.symbol.impl.Terminal;
 import ru.spbu.cfpq.graph.impl.EdgeListGraph;
 
-import java.io.File;
 import java.util.concurrent.TimeUnit;
 
 import static ru.spbu.cfpq.algorithm.CFReachabilityAlgorithms.matrixAllPairReachability;
@@ -28,8 +27,8 @@ public class MatrixAllPairReachabilityBenchmark {
 
     @Setup(Level.Trial)
     public void setUp() {
-        grammar = ContextFreeGrammar.readFromFile(new File(classLoader.getResource(benchmarkCase + "Grammars/" + grammarCase).getFile()));
-        graph = EdgeListGraph.readFromFile(new File(classLoader.getResource(benchmarkCase + "Matrices/" + graphCase).getFile()));
+        grammar = ContextFreeGrammar.readFromStream(classLoader.getResourceAsStream(benchmarkCase + "Grammars/" + grammarCase));
+        graph = EdgeListGraph.readFromStream(classLoader.getResourceAsStream(benchmarkCase + "Matrices/" + graphCase));
     }
 
     @Fork(value = 1, warmups = 1)

@@ -3,7 +3,7 @@ The **CFPQ_JavaAlgo** is a repository for developing *Context-Free Path Querying
 
 ## Prerequisites
 - `Java 17+`
-- `Maven 3.9.5`
+- `Maven 3.9.6`
 
 ## Project dependencies
 - [Apache Commons Math](https://commons.apache.org/proper/commons-math/index.html) 3.6.1 - library containing matrix algebra algorithms
@@ -21,14 +21,26 @@ cd CFPQ_JavaAlgo/
 Build maven project:
 
 ```shell
-mvn install
+mvn clean install
 ```
 
 ## Usage
-You can run the demo program in the [main](./src/main/) directory, unit tests from the [test](./src/test/) directory or benchmarks located in [benchmark](./src/benchmark/). For example, to run the demo program you need to execute following:
-```shell
+
+### Run tests
+```
+mvn test
+```
+
+### Run demo
+```
 java -cp target/CFPQ_JavaAlgo-1.0-SNAPSHOT.jar ru.spbu.cfpq.Main
 ```
+
+### Run benchmarks
+```
+java -cp target/CFPQ_JavaAlgo-1.0-SNAPSHOT.jar ru.spbu.cfpq.algorithm.BenchmarkRunner
+```
+
 
 ## Project structure
 ```

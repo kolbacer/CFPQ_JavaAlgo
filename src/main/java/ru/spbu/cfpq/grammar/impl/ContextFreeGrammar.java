@@ -9,7 +9,6 @@ import ru.spbu.cfpq.grammar.symbol.impl.Terminal;
 import ru.spbu.cfpq.grammar.symbol.impl.Variable;
 
 import java.io.*;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -86,15 +85,14 @@ public class ContextFreeGrammar extends FormalGrammar<Variable, Word> {
     /**
      * Reads grammar line by line in format "s a b ...", where first symbol is head of production and other symbols are body.
      * Uppercase strings are considered terminals, otherwise variables.
-     * @param file - file
-     * @param encoding - file encoding
+     * @param stream input stream, e.g. file
      * @return new ContextFreeGrammar
      */
-    public static ContextFreeGrammar readFromFile(File file, String encoding) {
+    public static ContextFreeGrammar readFromStream(InputStream stream) {
         BufferedReader reader;
 
         try {
-            reader = new BufferedReader(new InputStreamReader(new FileInputStream(file), encoding));
+            reader = new BufferedReader(new InputStreamReader(stream));
         } catch (Exception e) {
             return null;
         }
@@ -135,16 +133,6 @@ public class ContextFreeGrammar extends FormalGrammar<Variable, Word> {
         }
 
         return new ContextFreeGrammar(variables, terminals, start, productions);
-    }
-
-    /**
-     * Reads grammar line by line in format "s a b ...", where first symbol is head of production and other symbols are body.
-     * Uppercase strings are considered terminals, otherwise variables.
-     * @param file - file
-     * @return new ContextFreeGrammar
-     */
-    public static ContextFreeGrammar readFromFile(File file) {
-        return readFromFile(file, "utf-8");
     }
 
     static boolean isAllUpper(String str) {

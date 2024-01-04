@@ -88,16 +88,15 @@ public class EdgeListGraph<V, E> implements Graph<V, E> {
     }
 
     /**
-     * Read graph from file line by line in format "1 A 2", where 1 and 2 are integer vertices and A is an edge label (grammar terminal).
-     * @param file file
-     * @param encoding file encoding
+     * Read graph line by line in format "1 A 2", where 1 and 2 are integer vertices and A is an edge label (grammar terminal).
+     * @param stream input stream, e.g. file
      * @return new EdgeListGraph<Integer, Terminal>
      */
-    public static EdgeListGraph<Integer, Terminal> readFromFile(File file, String encoding) {
+    public static EdgeListGraph<Integer, Terminal> readFromStream(InputStream stream) {
         BufferedReader reader;
 
         try {
-            reader = new BufferedReader(new InputStreamReader(new FileInputStream(file), encoding));
+            reader = new BufferedReader(new InputStreamReader(stream));
         } catch (Exception e) {
             return null;
         }
@@ -115,15 +114,6 @@ public class EdgeListGraph<V, E> implements Graph<V, E> {
         }
 
         return graph;
-    }
-
-    /**
-     * Read graph from file line by line in format "1 A 2", where 1 and 2 are integer vertices and A is an edge label (grammar terminal).
-     * @param file file
-     * @return new EdgeListGraph<Integer, Terminal>
-     */
-    public static EdgeListGraph<Integer, Terminal> readFromFile(File file) {
-        return readFromFile(file, "utf-8");
     }
 
     @Override
