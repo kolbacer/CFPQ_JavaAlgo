@@ -68,5 +68,8 @@ java -cp target/CFPQ_JavaAlgo-1.0-SNAPSHOT.jar ru.spbu.cfpq.algorithm.BenchmarkR
     │                    └── matrix/ - matrix wrapper classes
     └── test
         └── java/ru/spbu/cfpq
-                         └── algorithm/ - unit tests for CFPQ algorithms
+                         ├── algorithm/ - unit tests for CFPQ algorithms
+                         ├── grammar/ - unit tests for grammar
+                         ├── graph/ - unit tests for graph
+                         └── matrix/ - unit tests for matrix
 ```
