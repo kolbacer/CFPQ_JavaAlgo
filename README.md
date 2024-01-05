@@ -1,4 +1,7 @@
 # CFPQ_JavaAlgo
+
+[![Maven build & test](https://github.com/kolbacer/CFPQ_JavaAlgo/actions/workflows/maven.yml/badge.svg)](https://github.com/kolbacer/CFPQ_JavaAlgo/actions/workflows/maven.yml)
+
 The **CFPQ_JavaAlgo** is a repository for developing *Context-Free Path Querying* algorithms in Java, as well as testing and benchmarking them. The algorithms are based on the [Apache Common Math](https://commons.apache.org/proper/commons-math/index.html) library. At the moment, 1 algorithm has been implemented - *Context-Free Path Querying Algorithm Based on Matrix Multiplication*.
 
 ## Prerequisites
