@@ -27,7 +27,7 @@ public class MatrixAllPairReachabilityBenchmark {
 
     @Setup(Level.Trial)
     public void setUp() {
-        grammar = ContextFreeGrammar.readFromStream(classLoader.getResourceAsStream(benchmarkCase + "Grammars/" + grammarCase));
+        grammar = ContextFreeGrammar.readFromStream(classLoader.getResourceAsStream(benchmarkCase + "Grammars/" + grammarCase), true);
         graph = EdgeListGraph.readFromStream(classLoader.getResourceAsStream(benchmarkCase + "Matrices/" + graphCase));
     }
 

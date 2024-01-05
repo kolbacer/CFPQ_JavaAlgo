@@ -37,6 +37,9 @@ java -cp target/CFPQ_JavaAlgo-1.0-SNAPSHOT.jar ru.spbu.cfpq.Main
 ```
 
 ### Run benchmarks
+Before running becnhmarks, you need to put the data from [CFPQ-on-GPGPU](https://github.com/JetBrains-Research/CFPQ-on-GPGPU) repo into the [src/benchmark/resources/](/src/benchmark/resources) folder. Alternatively, you can configure *benchmarkCase*, *grammarCase* and *graphCase* params in the bechmark class.
+
+Next run the following command:
 ```
 java -cp target/CFPQ_JavaAlgo-1.0-SNAPSHOT.jar ru.spbu.cfpq.algorithm.BenchmarkRunner
 ```

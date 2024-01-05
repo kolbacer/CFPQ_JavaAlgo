@@ -29,6 +29,11 @@ public class EdgeListGraph<V, E> implements Graph<V, E> {
         edges.forEach(this::addEdge);
     }
 
+    public EdgeListGraph(Edge<V, E>[] edges) {
+        this();
+        Arrays.stream(edges).toList().forEach(this::addEdge);
+    }
+
     @Override
     public int getVerticesCount() {
         return vertices.size();
@@ -88,7 +93,7 @@ public class EdgeListGraph<V, E> implements Graph<V, E> {
     }
 
     /**
-     * Read graph line by line in format "1 A 2", where 1 and 2 are integer vertices and A is an edge label (grammar terminal).
+     * Read graph line by line in format "1 a 2", where 1 and 2 are integer vertices and 'a' is an edge label (grammar terminal).
      * @param stream input stream, e.g. file
      * @return new EdgeListGraph<Integer, Terminal>
      */
@@ -109,11 +114,21 @@ public class EdgeListGraph<V, E> implements Graph<V, E> {
                 String[] tokens = str.split(" ");
                 graph.addEdge(Integer.parseInt(tokens[0]), Integer.parseInt(tokens[2]), new Terminal(tokens[1]));
             }
+            stream.close();
         } catch (IOException e) {
             return null;
         }
 
         return graph;
+    }
+
+    /**
+     * Read graph line by line in format "1 a 2", where 1 and 2 are integer vertices and 'a' is an edge label (grammar terminal).
+     * @param graph_string string, representing graph
+     * @return new EdgeListGraph<Integer, Terminal>
+     */
+    public static EdgeListGraph<Integer, Terminal> readFromString(String graph_string) {
+        return readFromStream(new ByteArrayInputStream(graph_string.getBytes()));
     }
 
     @Override

@@ -1,13 +1,12 @@
 package ru.spbu.cfpq;
 
-import org.apache.commons.math3.linear.FieldMatrix;
 import ru.spbu.cfpq.grammar.Production;
 import ru.spbu.cfpq.grammar.impl.ContextFreeGrammar;
 import ru.spbu.cfpq.grammar.symbol.Word;
 import ru.spbu.cfpq.grammar.symbol.impl.Terminal;
 import ru.spbu.cfpq.grammar.symbol.impl.Variable;
 import ru.spbu.cfpq.graph.impl.EdgeListGraph;
-import ru.spbu.cfpq.matrix.BoolFieldElement;
+import ru.spbu.cfpq.matrix.impl.BoolSparseMatrix;
 
 import java.util.HashMap;
 
@@ -50,7 +49,7 @@ public class Main {
         System.out.println("Graph:");
         System.out.println(graph);
 
-        HashMap<Variable, FieldMatrix<BoolFieldElement>> reachability = matrixAllPairReachability(graph, grammar);
+        HashMap<Variable, BoolSparseMatrix> reachability = matrixAllPairReachability(graph, grammar);
 
         System.out.println("Reachability matrix:");
         printReachabilityMatrix(reachability);

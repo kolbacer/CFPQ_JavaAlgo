@@ -1,6 +1,5 @@
 package ru.spbu.cfpq.algorithm;
 
-import org.apache.commons.math3.linear.FieldMatrix;
 import ru.spbu.cfpq.grammar.Production;
 import ru.spbu.cfpq.grammar.impl.ContextFreeGrammar;
 import ru.spbu.cfpq.grammar.symbol.Word;
@@ -16,7 +15,7 @@ import java.util.*;
 public final class CFReachabilityAlgorithms {
     private CFReachabilityAlgorithms() {}
 
-    public static HashMap<Variable, FieldMatrix<BoolFieldElement>> matrixAllPairReachability(EdgeListGraph<Integer, Terminal> graph, ContextFreeGrammar grammar) {
+    public static HashMap<Variable, BoolSparseMatrix> matrixAllPairReachability(EdgeListGraph<Integer, Terminal> graph, ContextFreeGrammar grammar) {
         if (!grammar.isInWeakChomskyNormalForm())
             throw new IllegalArgumentException("Grammar must be in weak chomsky normal form");
 
@@ -40,7 +39,7 @@ public final class CFReachabilityAlgorithms {
         int n = graph.getVerticesCount();
         List<Edge<Integer, Terminal>> edges = graph.edges;
 
-        HashMap<Variable, FieldMatrix<BoolFieldElement>> T = new HashMap<>();
+        HashMap<Variable, BoolSparseMatrix> T = new HashMap<>();
 
         for (Variable variable: variables) {
             T.put(variable, new BoolSparseMatrix(n, n));
@@ -48,7 +47,7 @@ public final class CFReachabilityAlgorithms {
 
         // terminal productions
         for (Production<Variable, Word> production : terminalProductions) {
-            FieldMatrix<BoolFieldElement> Tv = T.get(production.head);
+            BoolSparseMatrix Tv = T.get(production.head);
             for (Edge<Integer, Terminal> edge : edges) {
                 if (production.body.equals(edge.e))
                     Tv.setEntry(edge.v1, edge.v2, TRUE);
@@ -57,7 +56,7 @@ public final class CFReachabilityAlgorithms {
 
         // epsilon productions
         for (Production<Variable, Word> production : epsilonProductions) {
-            FieldMatrix<BoolFieldElement> Tv = T.get(production.head);
+            BoolSparseMatrix Tv = T.get(production.head);
             for (int i = 0; i < n; ++i)
                 Tv.setEntry(i, i, TRUE);
         }
@@ -67,10 +66,10 @@ public final class CFReachabilityAlgorithms {
         while (changed) {
             changed = false;
             for (Production<Variable, Word> production : variableProductions) {
-                FieldMatrix<BoolFieldElement> Tv = T.get(production.head);
-                FieldMatrix<BoolFieldElement> T1 = T.get((Variable)production.body.symbols.get(0));
-                FieldMatrix<BoolFieldElement> T2 = T.get((Variable)production.body.symbols.get(1));
-                FieldMatrix<BoolFieldElement> newTv = Tv.add(T1.multiply(T2));
+                BoolSparseMatrix Tv = T.get(production.head);
+                BoolSparseMatrix T1 = T.get((Variable)production.body.symbols.get(0));
+                BoolSparseMatrix T2 = T.get((Variable)production.body.symbols.get(1));
+                BoolSparseMatrix newTv = (BoolSparseMatrix)Tv.add(T1.multiply(T2));
                 if (!Tv.equals(newTv)) {
                     T.replace(production.head, newTv);
                     changed = true;
