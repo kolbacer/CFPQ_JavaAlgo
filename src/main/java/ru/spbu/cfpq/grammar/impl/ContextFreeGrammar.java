@@ -9,7 +9,6 @@ import ru.spbu.cfpq.grammar.symbol.impl.Terminal;
 import ru.spbu.cfpq.grammar.symbol.impl.Variable;
 
 import java.io.*;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -85,16 +84,15 @@ public class ContextFreeGrammar extends FormalGrammar<Variable, Word> {
 
     /**
      * Reads grammar line by line in format "s a b ...", where first symbol is head of production and other symbols are body.
-     * Uppercase strings are considered terminals, otherwise variables.
-     * @param file - file
-     * @param encoding - file encoding
+     * @param stream input stream, e.g. file
+     * @param isTerminalsUppercase if true, uppercase symbols are considered terminals and the rest are variables. Otherwise - vise versa.
      * @return new ContextFreeGrammar
      */
-    public static ContextFreeGrammar readFromFile(File file, String encoding) {
+    public static ContextFreeGrammar readFromStream(InputStream stream, boolean isTerminalsUppercase) {
         BufferedReader reader;
 
         try {
-            reader = new BufferedReader(new InputStreamReader(new FileInputStream(file), encoding));
+            reader = new BufferedReader(new InputStreamReader(stream));
         } catch (Exception e) {
             return null;
         }
@@ -110,13 +108,16 @@ public class ContextFreeGrammar extends FormalGrammar<Variable, Word> {
                 String[] tokens = str.split(" ");
 
                 Variable headSymbol = new Variable(tokens[0]);
+                variables.add(headSymbol);
                 if (start == null)
                     start = headSymbol;
                 LinkedList<Symbol> bodySymbols = new LinkedList<>();
                 for (int i = 1; i < tokens.length; ++i) {
                     String token = tokens[i];
+                    if (token.equals("->")) continue;
+
                     Symbol symbol;
-                    if (isAllUpper(token)) {
+                    if (isTerminalsUppercase == isAllUpper(token)) {
                         symbol = new Terminal(token);
                         terminals.add((Terminal)symbol);
                     }
@@ -124,12 +125,14 @@ public class ContextFreeGrammar extends FormalGrammar<Variable, Word> {
                         symbol = new Variable(token);
                         variables.add((Variable)symbol);
                     }
+
                     bodySymbols.add(symbol);
                 }
 
                 Production<Variable, Word> production = new Production<>(headSymbol, new Word(bodySymbols));
                 productions.add(production);
             }
+            stream.close();
         } catch (IOException e) {
             return null;
         }
@@ -139,12 +142,32 @@ public class ContextFreeGrammar extends FormalGrammar<Variable, Word> {
 
     /**
      * Reads grammar line by line in format "s a b ...", where first symbol is head of production and other symbols are body.
-     * Uppercase strings are considered terminals, otherwise variables.
-     * @param file - file
+     * Uppercase symbols are considered variables, otherwise terminals.
+     * @param stream input stream, e.g. file
      * @return new ContextFreeGrammar
      */
-    public static ContextFreeGrammar readFromFile(File file) {
-        return readFromFile(file, "utf-8");
+    public static ContextFreeGrammar readFromStream(InputStream stream) {
+        return readFromStream(stream, false);
+    }
+
+    /**
+     * Reads grammar line by line in format "s a b ...", where first symbol is head of production and other symbols are body.
+     * @param grammar_string string, representing grammar
+     * @param isTerminalsUppercase if true, uppercase symbols are considered terminals and the rest are variables. Otherwise - vise versa.
+     * @return new ContextFreeGrammar
+     */
+    public static ContextFreeGrammar readFromString(String grammar_string, boolean isTerminalsUppercase) {
+        return readFromStream(new ByteArrayInputStream(grammar_string.getBytes()), isTerminalsUppercase);
+    }
+
+    /**
+     * Reads grammar line by line in format "s a b ...", where first symbol is head of production and other symbols are body.
+     * Uppercase symbols are considered variables, otherwise terminals.
+     * @param grammar_string string, representing grammar
+     * @return new ContextFreeGrammar
+     */
+    public static ContextFreeGrammar readFromString(String grammar_string) {
+        return readFromStream(new ByteArrayInputStream(grammar_string.getBytes()));
     }
 
     static boolean isAllUpper(String str) {

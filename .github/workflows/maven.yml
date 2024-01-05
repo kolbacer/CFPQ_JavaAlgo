@@ -1,0 +1,25 @@
+name: Maven build & test
+
+on:
+  push:
+    branches: [ "master", "develop" ]
+  pull_request:
+    branches: [ "master", "develop" ]
+  workflow_dispatch:
+
+jobs:
+  build_test:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Setup Maven & Java
+      uses: s4u/setup-maven-action@v1.11.0
+      with:
+        java-version: '17'
+        java-distribution: 'oracle'
+        maven-version: 3.9.6
+    - name: Build with Maven
+      run: mvn -B package --file pom.xml -DskipTests
+    - name: Run tests
+      run: mvn -B test --file pom.xml

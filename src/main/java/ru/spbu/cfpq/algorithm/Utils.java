@@ -1,18 +1,17 @@
 package ru.spbu.cfpq.algorithm;
 
-import org.apache.commons.math3.linear.FieldMatrix;
 import ru.spbu.cfpq.grammar.symbol.impl.Variable;
-import ru.spbu.cfpq.matrix.BoolFieldElement;
+import ru.spbu.cfpq.matrix.BoolMatrix;
 
 import java.util.HashMap;
 import java.util.List;
 
 public final class Utils {
-    public static void printReachabilityMatrix(HashMap<Variable, FieldMatrix<BoolFieldElement>> reachability) {
+    public static void printReachabilityMatrix(HashMap<Variable, ? extends BoolMatrix> reachability) {
         if (reachability.isEmpty()) return;
 
         List<Variable> variables = reachability.keySet().stream().toList();
-        List<FieldMatrix<BoolFieldElement>> matrices = reachability.values().stream().toList();
+        List<? extends BoolMatrix> matrices = reachability.values().stream().toList();
         int n = matrices.get(0).getRowDimension();
 
         String[][] reachabilityStr = new String[n][n];
