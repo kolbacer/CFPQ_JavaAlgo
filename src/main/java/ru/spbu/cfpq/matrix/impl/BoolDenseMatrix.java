@@ -1,6 +1,5 @@
 package ru.spbu.cfpq.matrix.impl;
 
-import org.apache.commons.math3.exception.DimensionMismatchException;
 import org.apache.commons.math3.linear.Array2DRowFieldMatrix;
 import org.apache.commons.math3.linear.FieldMatrix;
 import org.apache.commons.math3.linear.MatrixDimensionMismatchException;
@@ -29,6 +28,11 @@ public class BoolDenseMatrix extends Array2DRowFieldMatrix<BoolFieldElement> imp
         super(BoolField.getInstance(), v);
     }
 
+    @Override
+    public FieldMatrix<BoolFieldElement> createMatrix(int rowDimension, int columnDimension) {
+        return new BoolDenseMatrix(rowDimension, columnDimension);
+    }
+
     public int NumberOfNonzeros() {
         int nnz = 0;
         BoolFieldElement[][] data = getData();
@@ -40,41 +44,21 @@ public class BoolDenseMatrix extends Array2DRowFieldMatrix<BoolFieldElement> imp
     }
 
     @Override
-    public FieldMatrix<BoolFieldElement> add(FieldMatrix<BoolFieldElement> m) throws MatrixDimensionMismatchException {
-        this.checkAdditionCompatible(m);
-        int rowCount = this.getRowDimension();
-        int columnCount = this.getColumnDimension();
-        BoolDenseMatrix out = new BoolDenseMatrix(rowCount, columnCount);
+    public Array2DRowFieldMatrix<BoolFieldElement> add(Array2DRowFieldMatrix<BoolFieldElement> m) throws MatrixDimensionMismatchException {
+        return new BoolDenseMatrix(super.add(m).getDataRef(), false);
+    }
 
-        for(int row = 0; row < rowCount; ++row) {
-            for(int col = 0; col < columnCount; ++col) {
-                out.setEntry(row, col, this.getEntry(row, col).add(m.getEntry(row, col)));
-            }
-        }
-
-        return out;
+    public BoolDenseMatrix add(BoolDenseMatrix m) {
+        return (BoolDenseMatrix)add((Array2DRowFieldMatrix<BoolFieldElement>)m);
     }
 
     @Override
-    public FieldMatrix<BoolFieldElement> multiply(FieldMatrix<BoolFieldElement> m) throws DimensionMismatchException {
-        this.checkMultiplicationCompatible(m);
-        int nRows = this.getRowDimension();
-        int nCols = m.getColumnDimension();
-        int nSum = this.getColumnDimension();
-        BoolDenseMatrix out = new BoolDenseMatrix(nRows, nCols);
-
-        for(int row = 0; row < nRows; ++row) {
-            for(int col = 0; col < nCols; ++col) {
-                BoolFieldElement sum = this.getField().getZero();
-
-                for(int i = 0; i < nSum; ++i) {
-                    sum = sum.add(this.getEntry(row, i).multiply(m.getEntry(i, col)));
-                }
-
-                out.setEntry(row, col, sum);
-            }
-        }
-
-        return out;
+    public Array2DRowFieldMatrix<BoolFieldElement> multiply(Array2DRowFieldMatrix<BoolFieldElement> m) throws MatrixDimensionMismatchException {
+        return new BoolDenseMatrix(super.multiply(m).getDataRef(), false);
     }
+
+    public BoolDenseMatrix multiply(BoolDenseMatrix m) {
+        return (BoolDenseMatrix)multiply((Array2DRowFieldMatrix<BoolFieldElement>)m);
+    }
+
 }
