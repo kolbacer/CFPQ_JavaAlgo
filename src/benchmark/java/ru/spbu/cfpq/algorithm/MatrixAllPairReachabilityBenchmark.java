@@ -19,7 +19,7 @@ public class MatrixAllPairReachabilityBenchmark {
     @Param({"Brackets.txt"})
     public String grammarCase;
 
-    @Param({"WorstCaseMatrix_3.txt", "WorstCaseMatrix_7.txt", "WorstCaseMatrix_10.txt", "WorstCaseMatrix_15.txt"})
+    @Param({"WorstCaseMatrix_3.txt", "WorstCaseMatrix_4.txt", "WorstCaseMatrix_5.txt", "WorstCaseMatrix_6.txt", "WorstCaseMatrix_7.txt"})
     public String graphCase;
 
     public ContextFreeGrammar grammar;
@@ -33,7 +33,7 @@ public class MatrixAllPairReachabilityBenchmark {
 
     @Fork(value = 1, warmups = 1)
     @Warmup(iterations = 1, timeUnit = TimeUnit.MILLISECONDS)
-    @Measurement(iterations = 3, timeUnit = TimeUnit.MILLISECONDS)
+    @Measurement(iterations = 20, timeUnit = TimeUnit.MILLISECONDS)
     @OutputTimeUnit(TimeUnit.MILLISECONDS)
     @Benchmark
     public void testAllPairReachability() {

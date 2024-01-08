@@ -69,7 +69,7 @@ public final class CFReachabilityAlgorithms {
                 BoolSparseMatrix Tv = T.get(production.head);
                 BoolSparseMatrix T1 = T.get((Variable)production.body.symbols.get(0));
                 BoolSparseMatrix T2 = T.get((Variable)production.body.symbols.get(1));
-                BoolSparseMatrix newTv = (BoolSparseMatrix)Tv.add(T1.multiply(T2));
+                BoolSparseMatrix newTv = Tv.add(T1.multiply(T2));
                 if (!Tv.equals(newTv)) {
                     T.replace(production.head, newTv);
                     changed = true;

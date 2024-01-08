@@ -1,6 +1,5 @@
 package ru.spbu.cfpq.matrix;
 
-import org.apache.commons.math3.linear.FieldMatrix;
 import org.junit.jupiter.api.Test;
 import ru.spbu.cfpq.matrix.impl.BoolDenseMatrix;
 import ru.spbu.cfpq.matrix.impl.BoolSparseMatrix;
@@ -32,11 +31,11 @@ public class BooleanMatrixMathTest {
                 {TRUE, FALSE, TRUE}  // 1 0 1
         };
 
-        FieldMatrix<BoolFieldElement> M1 = new BoolDenseMatrix(M1_data);
-        FieldMatrix<BoolFieldElement> M2 = new BoolDenseMatrix(M2_data);
-        FieldMatrix<BoolFieldElement> M = new BoolDenseMatrix(M_data);
+        BoolDenseMatrix M1 = new BoolDenseMatrix(M1_data);
+        BoolDenseMatrix M2 = new BoolDenseMatrix(M2_data);
+        BoolDenseMatrix M = new BoolDenseMatrix(M_data);
 
-        FieldMatrix<BoolFieldElement> SUM = M1.add(M2);
+        BoolDenseMatrix SUM = M1.add(M2);
 
         assertEquals(M, SUM);
     }
@@ -61,11 +60,11 @@ public class BooleanMatrixMathTest {
                 {TRUE, FALSE, TRUE}  // 1 0 1
         };
 
-        FieldMatrix<BoolFieldElement> M1 = new BoolSparseMatrix(new BoolDenseMatrix(M1_data));
-        FieldMatrix<BoolFieldElement> M2 = new BoolSparseMatrix(new BoolDenseMatrix(M2_data));
-        FieldMatrix<BoolFieldElement> M = new BoolSparseMatrix(new BoolDenseMatrix(M_data));
+        BoolSparseMatrix M1 = new BoolSparseMatrix(new BoolDenseMatrix(M1_data));
+        BoolSparseMatrix M2 = new BoolSparseMatrix(new BoolDenseMatrix(M2_data));
+        BoolSparseMatrix M = new BoolSparseMatrix(new BoolDenseMatrix(M_data));
 
-        FieldMatrix<BoolFieldElement> SUM = M1.add(M2);
+        BoolSparseMatrix SUM = M1.add(M2);
 
         assertEquals(M, SUM);
     }
@@ -90,11 +89,11 @@ public class BooleanMatrixMathTest {
                 {TRUE, FALSE, FALSE}  // 1 0 0
         };
 
-        FieldMatrix<BoolFieldElement> M1 = new BoolDenseMatrix(M1_data);
-        FieldMatrix<BoolFieldElement> M2 = new BoolDenseMatrix(M2_data);
-        FieldMatrix<BoolFieldElement> M = new BoolDenseMatrix(M_data);
+        BoolDenseMatrix M1 = new BoolDenseMatrix(M1_data);
+        BoolDenseMatrix M2 = new BoolDenseMatrix(M2_data);
+        BoolDenseMatrix M = new BoolDenseMatrix(M_data);
 
-        FieldMatrix<BoolFieldElement> PROD = M1.multiply(M2);
+        BoolDenseMatrix PROD = M1.multiply(M2);
 
         assertEquals(M, PROD);
     }
@@ -119,11 +118,11 @@ public class BooleanMatrixMathTest {
                 {TRUE, FALSE, FALSE}  // 1 0 0
         };
 
-        FieldMatrix<BoolFieldElement> M1 = new BoolSparseMatrix(new BoolDenseMatrix(M1_data));
-        FieldMatrix<BoolFieldElement> M2 = new BoolSparseMatrix(new BoolDenseMatrix(M2_data));
-        FieldMatrix<BoolFieldElement> M = new BoolSparseMatrix(new BoolDenseMatrix(M_data));
+        BoolSparseMatrix M1 = new BoolSparseMatrix(new BoolDenseMatrix(M1_data));
+        BoolSparseMatrix M2 = new BoolSparseMatrix(new BoolDenseMatrix(M2_data));
+        BoolSparseMatrix M = new BoolSparseMatrix(new BoolDenseMatrix(M_data));
 
-        FieldMatrix<BoolFieldElement> PROD = M1.multiply(M2);
+        BoolSparseMatrix PROD = M1.multiply(M2);
 
         assertEquals(M, PROD);
     }
